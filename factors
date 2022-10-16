@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# is a factor challenge
 
 check_factor()
 {
