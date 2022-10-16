@@ -4,6 +4,6 @@ FILE=$1
 
 while read NUM
 do
-    rsa=($(rsa $NUM))
-    echo "$NUM=$(($NUM/${rsa[1]}))*${rsa[1]}"
+    factors=($(rsa $NUM))
+    echo "$NUM=$(($NUM/${factors[1]}))*${factors[1]}"
 done < $FILE
