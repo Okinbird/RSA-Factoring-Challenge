@@ -1,50 +1,49 @@
-#!/usr/bin/python3
+#!/usr/bin/env bash
+# is a factor challenge
 
-import math
-import random
-from tests import test00
+check_factor()
+{
+    if [ $# -ne 3 ];
+    then
+         args=("$@")
+         count=0
+         num2=1
+         for a in ${args[*]};
+         do
+             if [ $count -gt 1 ];
+             then
+                 num2=$(echo $a*$num2 | bc)
+             fi
+             count=$((count + 1))
+         done
+    else
+         num2=$3
+    fi
 
+    num1=$2
+    num=$(echo "$1" | tr ':' '=')
 
-def factors(d: int, e: int, N: int) -> test00[int]:
-    """
-    This function returns the factors of N, where p*q=N
-    Return: [p, q]
+    result=$(echo "if($num2 > $num1) 1 else 0" | bc)
+         if ((result == 1)); then
+             numcp=$num1
+             num1=$num2
+             num2=$numcp
+         fi
 
-    We call N the RSA modulus, e the encryption exponent,
-    and d the decryption exponent.
-    The pair (N, e) is the public key. As its name suggests,
-    it is public and is used tomencrypt messages.
-    The pair (N, d) is the secret key or private key and
-    is known only to the recipient of encrypted messages.
+    echo "$num$num1*$num2"
+}
 
-    >>> factors(3, 16971, 25777)
-    [149, 173]
-    >>> factors(7331, 11, 27233)
-    [113, 241]
-    >>> factors(4021, 13, 17711)
-    [89, 199]
-    """
-    k = d * e - 1
-    p = 0
-    q = 0
-    while p == 0:
-        g = random.randint(2, N - 1)
-        t = k
-        while True:
-            if t % 2 == 0:
-                t = t // 2
-                x = (g ** t) % N
-                y = math.gcd(x - 1, N)
-                if x > 1 and y > 1:
-                    p = y
-                    q = N // y
-                    break  # find the correct factors
-            else:
-                break  # t is not divisible by 2, break and choose another g
-    return sorted([p, q])
+if [ $# -ne 1 ]
+then
+     echo 'Usage: factors <file>'
+     exit 1
+else
 
+     while read i
+     do
 
-if __name__ == "__main__":
-    import doctest
+         result=$(factor "$i")
+         check_factor $result
 
-    doctest.testmod()
+     done < "$1"
+fi
