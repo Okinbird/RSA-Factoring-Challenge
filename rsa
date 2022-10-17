@@ -15,26 +15,26 @@ check_factor()
 			fi
 			count=$((count + 1))
 		done
-	else
+	 else
 		num2=$3
-	fi
+	 fi
 
-	num1=$2
-	num=$(echo "$1" | tr ':' '=')
+	 num1=$2
+	 num=$(echo "$1" | tr ':' '=')
 
-        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
-		      if ((result == 1)); then
-		      	 numcp=$num1
-			 num1=$num2
-			 num2=$numcp
-		      fi
+         result=$(echo "if($num2 > $num1) 1 else 0" | bc)
+	 	       if ((result == 1)); then
+		       	  numcp=$num1
+			  num1=$num2
+			  num2=$numcp
+		       fi
 
-        echo "$num$num1*$num2"
+         echo "$num$num1*$num2"
 }
 
 if [ $# -ne 1 ]
 then
-        echo 'Usage: factors <file>'
+        echo 'Usage: rsa <file>'
 	exit 1
 else
 
